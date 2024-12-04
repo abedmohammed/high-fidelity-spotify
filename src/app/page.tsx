@@ -19,6 +19,7 @@ import { Slider } from "@/components/ui/slider";
 import { song } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import {
+  Check,
   ChevronDown,
   Dot,
   Heart,
@@ -27,6 +28,7 @@ import {
   Pause,
   Play,
   Plus,
+  PlusCircle,
   Repeat2,
   Share2,
   Shuffle,
@@ -198,7 +200,20 @@ export default function HomePage() {
                 />
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Plus className="cursor-pointer" />
+                    {isInPlaylist("playlist1") ||
+                    isInPlaylist("playlist2") ||
+                    isInPlaylist("playlist3") ||
+                    isInPlaylist("playlist4") ? (
+                      <div className="cursor-pointer grid place-content-center bg-primary rounded-full w-[24px] h-[24px]">
+                        <Check
+                          className="stroke-neutral-900"
+                          strokeWidth={4}
+                          size={16}
+                        />
+                      </div>
+                    ) : (
+                      <PlusCircle className="cursor-pointer" />
+                    )}
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-64" side="top" align="end">
                     <DropdownMenuLabel>Add to Playlist</DropdownMenuLabel>

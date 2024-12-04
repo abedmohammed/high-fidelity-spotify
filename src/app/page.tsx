@@ -2,6 +2,13 @@
 
 import Phone from "@/components/phone";
 import {
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
@@ -27,7 +34,7 @@ import {
   SkipForward,
 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type PlaylistData = {
   liked: boolean[];
@@ -40,6 +47,8 @@ type PlaylistData = {
 };
 
 export default function HomePage() {
+  const [api, setApi] = useState<CarouselApi>();
+
   const [value, setValue] = useState(0);
   const [paused, setPaused] = useState(false);
 
@@ -71,11 +80,13 @@ export default function HomePage() {
 
   const nextSong = () => {
     setCurSong((prev) => (prev + 1) % song.length);
+    api?.scrollTo(curSong + 1);
     setValue(0);
   };
 
   const prevSong = () => {
     setCurSong((prev) => (prev - 1 + song.length) % song.length);
+    api?.scrollTo(curSong - 1);
     setValue(0);
   };
 
@@ -89,6 +100,18 @@ export default function HomePage() {
       };
     });
   };
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCurSong(api.selectedScrollSnap());
+
+    api.on("select", () => {
+      setCurSong(api.selectedScrollSnap());
+    });
+  }, [api]);
 
   const addToPlaylist = (playlistName: keyof PlaylistData["playlists"]) => {
     setData((prevData) => {
@@ -129,15 +152,29 @@ export default function HomePage() {
           <Menu />
         </header>
         <main className="flex-1 flex flex-col">
-          <div className="basis-[400px] grid place-content-center">
-            <div className="w-[300px] h-[300px] relative">
-              <Image
-                className="rounded-lg"
-                src={`/images/${song[curSong].cover}`}
-                alt={`${song[curSong].name} by ${song[curSong].artist}`}
-                fill
-              />
-            </div>
+          <div className="basis-[400px]">
+            <Carousel
+              setApi={setApi}
+              opts={{
+                loop: true,
+              }}
+              className="ml-1.5 mt-12"
+            >
+              <CarouselContent>
+                {song.map((curSongMap, index) => (
+                  <CarouselItem>
+                    <div className="w-[300px] h-[300px] relative">
+                      <Image
+                        className="rounded-lg"
+                        src={`/images/${curSongMap.cover}`}
+                        alt={`${curSongMap.name} by ${curSongMap.artist}`}
+                        fill
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
           </div>
           <div className="flex-1 flex flex-col">
             <div className="flex items-center">

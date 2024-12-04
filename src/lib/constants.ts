@@ -27,4 +27,11 @@ export const song = [
     length: "3:43",
     cover: "shampoo.jpeg",
   },
+  {
+    album: "Ultraviolence",
+    name: "West Coast",
+    artist: "Lana Del Rey",
+    length: "4:16",
+    cover: "lana.jpg",
+  },
 ];

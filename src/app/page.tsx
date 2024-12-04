@@ -27,7 +27,6 @@ import {
   MonitorSpeaker,
   Pause,
   Play,
-  Plus,
   PlusCircle,
   Repeat2,
   Share2,

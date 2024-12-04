@@ -128,13 +128,14 @@ export default function HomePage() {
         </header>
         <main className="flex-1 flex flex-col">
           <div className="basis-[400px] grid place-content-center">
-            <Image
-              className="rounded-lg"
-              src={`/images/${song[curSong].cover}`}
-              alt={`${song[curSong].name} by ${song[curSong].artist}`}
-              width={300}
-              height={300}
-            />
+            <div className="w-[300px] h-[300px] relative">
+              <Image
+                className="rounded-lg"
+                src={`/images/${song[curSong].cover}`}
+                alt={`${song[curSong].name} by ${song[curSong].artist}`}
+                fill
+              />
+            </div>
           </div>
           <div className="flex-1 flex flex-col">
             <div className="flex items-center">
@@ -270,7 +271,7 @@ export default function HomePage() {
                 <div className="h-14 w-14 rounded-full bg-white grid place-content-center">
                   <Pause
                     size={32}
-                    className="fill-neutral-950"
+                    className="fill-neutral-900"
                     strokeWidth={0.5}
                   />
                 </div>

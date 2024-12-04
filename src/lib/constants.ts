@@ -1,12 +1,5 @@
 export const song = [
   {
-    album: "Black Holes and Revelations",
-    name: "Supermassive Black Hole",
-    artist: "Muse",
-    length: "3:29",
-    cover: "muse.jpg",
-  },
-  {
     album: "Lithuonia",
     name: "Lithuonia",
     artist: "Childish Gambino",
@@ -19,6 +12,13 @@ export const song = [
     artist: "Kendrick Lamar, SZA",
     length: "2:57",
     cover: "luther.jpg",
+  },
+  {
+    album: "Red Moon in Venus",
+    name: "Moonlight",
+    artist: "Kali Uchis",
+    length: "3:18",
+    cover: "moonlight.jpg",
   },
   {
     album: "You and Your Friends",

@@ -20,4 +20,11 @@ export const song = [
     length: "2:57",
     cover: "luther.jpg",
   },
+  {
+    album: "You and Your Friends",
+    name: "Shampoo Bottles",
+    artist: "Peach Pit",
+    length: "3:43",
+    cover: "shampoo.jpeg",
+  },
 ];

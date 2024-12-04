@@ -1,7 +1,6 @@
 "use client";
 
 import { BatteryFull, SignalHigh, Wifi } from "lucide-react";
-import { usePathname } from "next/navigation";
 
 type props = {
   children: React.ReactNode;

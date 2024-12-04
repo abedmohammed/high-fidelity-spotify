@@ -21,6 +21,7 @@ import { song } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import {
   ChevronDown,
+  Dot,
   Heart,
   Menu,
   MonitorSpeaker,
@@ -32,6 +33,7 @@ import {
   Shuffle,
   SkipBack,
   SkipForward,
+  Sparkle,
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -62,15 +64,18 @@ export default function HomePage() {
     },
   });
 
-  const [shuffle, setShuffle] = useState(false);
-  const [loop, setLoop] = useState(false);
+  const [shuffle, setShuffle] = useState(0);
+  const [loop, setLoop] = useState(0);
   const [curSong, setCurSong] = useState(0);
+
+  useEffect(() => {
+    setValue(0);
+  }, [curSong]);
 
   const [minutes, seconds] = song[curSong].length.split(":").map(Number);
   const songLengthSeconds = minutes * 60 + seconds;
 
-  const currentTime = Math.floor((value / 100) * songLengthSeconds);
-  const remainingTime = songLengthSeconds - currentTime;
+  const remainingTime = songLengthSeconds - value;
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
@@ -163,7 +168,7 @@ export default function HomePage() {
               <CarouselContent>
                 {song.map((curSongMap, index) => (
                   <CarouselItem>
-                    <div className="w-[300px] h-[300px] relative">
+                    <div className="w-[300px] h-[300px] relative cursor-grab">
                       <Image
                         className="rounded-lg"
                         src={`/images/${curSongMap.cover}`}
@@ -287,25 +292,61 @@ export default function HomePage() {
               <Slider
                 defaultValue={[33]}
                 className="cursor-pointer"
-                max={100}
+                max={songLengthSeconds}
                 step={1}
                 value={[value]}
                 onValueChange={(val) => setValue(val[0])}
               />
               <div className="mt-1 flex justify-between text-sm text-neutral-500 font-medium">
-                <p>{formatTime(currentTime)}</p>
+                <p>{formatTime(value)}</p>
                 <p>{formatTime(remainingTime)}</p>
               </div>
             </div>
             <div className="mt-4">
               <div className="flex justify-between items-center">
-                <Shuffle
-                  onClick={() => setShuffle((prev) => !prev)}
-                  className={cn(
-                    "cursor-pointer transition-all",
-                    shuffle && "stroke-primary"
+                <div
+                  className="cursor-pointer relative"
+                  onClick={() =>
+                    setShuffle((prev) => {
+                      if (prev === 0) return 1;
+                      if (prev === 1) return 2;
+                      return 0;
+                    })
+                  }
+                >
+                  {shuffle !== 2 && (
+                    <Shuffle
+                      className={cn(
+                        "transition-all",
+                        shuffle && "stroke-primary"
+                      )}
+                    />
                   )}
-                />
+
+                  {shuffle === 2 && (
+                    <>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        className="lucide lucide-shuffle stroke-primary"
+                      >
+                        <path d="m18 14 4 4-4 4" />
+                        <path d="m18 2 4 4-4 4" />
+                        <path d="M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22" />
+                        <path d="M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45" />
+                      </svg>
+                      <Sparkle
+                        className="absolute top-0 -left-1 fill-primary stroke-none"
+                        size={14}
+                      />
+                    </>
+                  )}
+                </div>
                 <SkipBack onClick={prevSong} className="cursor-pointer" />
                 <div
                   className="h-14 w-14 rounded-full bg-white grid place-content-center cursor-pointer"
@@ -322,13 +363,26 @@ export default function HomePage() {
                   )}
                 </div>
                 <SkipForward onClick={nextSong} className="cursor-pointer" />
-                <Repeat2
-                  onClick={() => setLoop((prev) => !prev)}
-                  className={cn(
-                    "cursor-pointer transition-all",
-                    loop && "stroke-primary"
+                <div
+                  className="cursor-pointer relative"
+                  onClick={() =>
+                    setLoop((prev) => {
+                      if (prev === 0) return 1;
+                      if (prev === 1) return 2;
+                      return 0;
+                    })
+                  }
+                >
+                  <Repeat2
+                    className={cn(
+                      "cursor-pointer transition-all",
+                      loop && "stroke-primary"
+                    )}
+                  />
+                  {loop === 2 && (
+                    <Dot className="absolute top-4 stroke-primary" />
                   )}
-                />
+                </div>
               </div>
             </div>
           </div>

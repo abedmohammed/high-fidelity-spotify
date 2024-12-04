@@ -6,7 +6,6 @@ import {
   CarouselApi,
   CarouselContent,
   CarouselItem,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import {
   DropdownMenu,
@@ -166,8 +165,8 @@ export default function HomePage() {
               className="ml-1.5 mt-12"
             >
               <CarouselContent>
-                {song.map((curSongMap, index) => (
-                  <CarouselItem>
+                {song.map((curSongMap) => (
+                  <CarouselItem key={curSongMap.name}>
                     <div className="w-[300px] h-[300px] relative cursor-grab">
                       <Image
                         className="rounded-lg"

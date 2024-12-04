@@ -18,6 +18,7 @@ import {
   Menu,
   MonitorSpeaker,
   Pause,
+  Play,
   Plus,
   Repeat2,
   Share2,
@@ -40,6 +41,7 @@ type PlaylistData = {
 
 export default function HomePage() {
   const [value, setValue] = useState(0);
+  const [paused, setPaused] = useState(false);
 
   const [data, setData] = useState<PlaylistData>({
     liked: song.map(() => false),
@@ -268,12 +270,19 @@ export default function HomePage() {
                   )}
                 />
                 <SkipBack onClick={prevSong} className="cursor-pointer" />
-                <div className="h-14 w-14 rounded-full bg-white grid place-content-center">
-                  <Pause
-                    size={32}
-                    className="fill-neutral-900"
-                    strokeWidth={0.5}
-                  />
+                <div
+                  className="h-14 w-14 rounded-full bg-white grid place-content-center cursor-pointer"
+                  onClick={() => setPaused((prev) => !prev)}
+                >
+                  {paused ? (
+                    <Play size={32} className="fill-neutral-900" />
+                  ) : (
+                    <Pause
+                      size={32}
+                      className="fill-neutral-900"
+                      strokeWidth={0.5}
+                    />
+                  )}
                 </div>
                 <SkipForward onClick={nextSong} className="cursor-pointer" />
                 <Repeat2
